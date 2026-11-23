@@ -10,7 +10,3 @@ parameters:
         -
             identifier: missingType.iterableValue
         - '#Method Zend_Acl::_roleDFSAllPrivileges\(\) invoked with 3 parameters, 1-2 required\.#'
-        # This appears to be done on purpose to be able to short circuit
-        -
-            message: '#Do-while loop condition is always false\.#'
-            path: ./src/Zend/Acl.php
