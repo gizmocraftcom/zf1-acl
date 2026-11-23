@@ -20,16 +20,18 @@
  * @version    $Id$
  */
 
+use PHPUnit\Framework\Attributes\Group;
+
 require_once dirname(__FILE__) . '/_files/MockAssertion.php';
 
 /**
  * @category   Zend
  * @package    Zend_Acl
  * @subpackage UnitTests
- * @group      Zend_Acl
  * @copyright  Copyright (c) 2005-2015 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
+#[Group('Zend_Acl')]
 class Zend_Acl_AclTest extends PHPUnit\Framework\TestCase
 {
     /**
@@ -280,8 +282,8 @@ class Zend_Acl_AclTest extends PHPUnit\Framework\TestCase
     /**
      * Ensures that basic addition and retrieval of a single Resource works
      *
-     * @group ZF-1167
      */
+    #[Group('ZF-1167')]
     public function testResourceAddAndGetOneWithAddResourceMethod()
     {
         $resourceArea = new Zend_Acl_Resource('area');
@@ -1045,8 +1047,8 @@ class Zend_Acl_AclTest extends PHPUnit\Framework\TestCase
      * Ensures that the $onlyParents argument to inheritsRole() works
      *
      * @return void
-     * @group ZF-2502
      */
+    #[Group('ZF-2502')]
     public function testRoleInheritanceSupportsCheckingOnlyParents()
     {
         $this->_acl->addRole(new Zend_Acl_Role('grandparent'))
@@ -1059,8 +1061,8 @@ class Zend_Acl_AclTest extends PHPUnit\Framework\TestCase
      * Ensures that the solution for ZF-2234 works as expected
      *
      * @return void
-     * @group ZF-2234
      */
+    #[Group('ZF-2234')]
     public function testAclInternalDFSMethodsBehaveProperly()
     {
         require_once dirname(__FILE__) . '/_files/ExtendedAclZF2234.php';
@@ -1105,9 +1107,7 @@ class Zend_Acl_AclTest extends PHPUnit\Framework\TestCase
     }
 
 
-    /**
-     * @group ZF-1721
-     */
+    #[Group('ZF-1721')]
     public function testAclAssertionsGetProperRoleWhenInheritenceIsUsed()
     {
         $acl = $this->_loadUseCase1();
@@ -1125,10 +1125,7 @@ class Zend_Acl_AclTest extends PHPUnit\Framework\TestCase
         $this->assertEquals('publisher', $assertion->lastAssertRole->getRoleId());
     }
 
-    /**
-     *
-     * @group ZF-1722
-     */
+    #[Group('ZF-1722')]
     public function testAclAssertionsGetOriginalIsAllowedObjects()
     {
         $acl = $this->_loadUseCase1();
@@ -1171,8 +1168,8 @@ class Zend_Acl_AclTest extends PHPUnit\Framework\TestCase
 
     /**
      * Returns an array of registered roles
-     * @group ZF-5638
      */
+    #[Group('ZF-5638')]
     public function testGetRegisteredRoles()
     {
         $acl = $this->_acl;
@@ -1187,8 +1184,8 @@ class Zend_Acl_AclTest extends PHPUnit\Framework\TestCase
      * Confirm that deleting a role after allowing access to all roles
      * raise undefined index error
      *
-     * @group ZF-5700
      */
+    #[Group('ZF-5700')]
     public function testRemovingRoleAfterItWasAllowedAccessToAllResourcesGivesError()
     {
         $acl = new Zend_Acl();
@@ -1207,11 +1204,11 @@ class Zend_Acl_AclTest extends PHPUnit\Framework\TestCase
     }
 
     /**
-     * @group ZF-8039
      *
      * Meant to test for the (in)existance of this notice:
      * "Notice: Undefined index: allPrivileges in lib/Zend/Acl.php on line 682"
      */
+    #[Group('ZF-8039')]
     public function testMethodRemoveAllowDoesNotThrowNotice()
     {
         $acl = new Zend_Acl();
@@ -1235,9 +1232,7 @@ class Zend_Acl_AclTest extends PHPUnit\Framework\TestCase
         $this->assertEquals('_fooBar_', (string)$resource);
     }
 
-    /**
-     * @group ZF-7973
-     */
+    #[Group('ZF-7973')]
     public function testAclPassesPrivilegeToAssertClass()
     {
         require_once dirname(__FILE__) . '/_files/AssertionZF7973.php';
@@ -1252,9 +1247,7 @@ class Zend_Acl_AclTest extends PHPUnit\Framework\TestCase
         $this->assertTrue($allowed);
     }
 
-    /**
-     * @group ZF-8468
-     */
+    #[Group('ZF-8468')]
     public function testGetRegisteredRolesIsDeprecated()
     {
         set_error_handler(static function (int $errno, string $errstr): never {
@@ -1266,14 +1259,14 @@ class Zend_Acl_AclTest extends PHPUnit\Framework\TestCase
             'The method getRegisteredRoles() was deprecated as of version 1.0, and may be removed. You\'re encouraged to use getRoles() instead.'
         );
 
-        $this->_acl->getRegisteredRoles();
-
-        restore_error_handler();
+        try {
+            $this->_acl->getRegisteredRoles();
+        } finally {
+            restore_error_handler();
+        }
     }
 
-    /**
-     * @group ZF-8468
-     */
+    #[Group('ZF-8468')]
     public function testgetRoles()
     {
         $this->assertEquals(array(), $this->_acl->getRoles());
@@ -1288,9 +1281,7 @@ class Zend_Acl_AclTest extends PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $this->_acl->getRoles());
     }
 
-    /**
-     * @group ZF-8468
-     */
+    #[Group('ZF-8468')]
     public function testgetResources()
     {
         $this->assertEquals(array(), $this->_acl->getResources());
@@ -1302,9 +1293,7 @@ class Zend_Acl_AclTest extends PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $this->_acl->getResources());
     }
 
-    /**
-     * @group ZF-9643
-     */
+    #[Group('ZF-9643')]
     public function testRemoveAllowWithNullResourceAfterResourceSpecificRulesAppliesToAllResources()
     {
         $this->_acl->addRole('guest');
@@ -1329,9 +1318,7 @@ class Zend_Acl_AclTest extends PHPUnit\Framework\TestCase
         $this->assertTrue($this->_acl->isAllowed('guest', 'newsletter', 'read'));
     }
 
-    /**
-     * @group ZF-9643
-     */
+    #[Group('ZF-9643')]
     public function testRemoveDenyWithNullResourceAfterResourceSpecificRulesAppliesToAllResources()
     {
         $this->_acl->addRole('guest');
@@ -1358,9 +1345,7 @@ class Zend_Acl_AclTest extends PHPUnit\Framework\TestCase
         $this->assertFalse($this->_acl->isAllowed('guest', 'newsletter', 'read'));
     }
 
-    /**
-     * @group ZF-10649
-     */
+    #[Group('ZF-10649')]
     public function testAllowAndDenyWithNullForResourcesWillApplyToAllResources()
     {
         $this->_acl->addRole('guest');
